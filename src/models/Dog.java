@@ -16,4 +16,15 @@ public class Dog extends Pet {
         this.DANGEROUS_DAILY_RATE = DANGEROUS_DAILY_RATE;
         this.NONDANGEROUS_DAILY_RATE = NONDANGEROUS_DAILY_RATE;
     }
+
+    @Override
+    public String toString() {
+        return "Dog{" +
+                "breed='" + breed + '\'' +
+                ", dangerousBreed=" + dangerousBreed +
+                ", neutered=" + neutered +
+                ", DANGEROUS_DAILY_RATE=" + DANGEROUS_DAILY_RATE +
+                ", NONDANGEROUS_DAILY_RATE=" + NONDANGEROUS_DAILY_RATE +
+                "} " + super.toString();
+    }
 }

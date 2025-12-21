@@ -9,4 +9,12 @@ public String favouriteToy = "";
         this.indoorCat = indoorCat;
         this.favouriteToy = favouriteToy;
     }
+
+    @Override
+    public String toString() {
+        return "Cat{" +
+                "indoorCat=" + indoorCat +
+                ", favouriteToy='" + favouriteToy + '\'' +
+                "} " + super.toString();
+    }
 }

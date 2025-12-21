@@ -2,6 +2,8 @@ package models;
 
 import utils.Utilities;
 
+import java.util.Arrays;
+
 //Pet class will be the super class. It will be extended to the other pets like cat and dog.
 //This is why it needs to be abstract.
 
@@ -21,6 +23,17 @@ public abstract class Pet {
         this.owner = owner;
         this.daysAttending = daysAttending;
         this.sex = sex;
+    }
+
+    @Override
+    public String toString() {
+        return "Pet{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", owner='" + owner + '\'' +
+                ", daysAttending=" + Arrays.toString(daysAttending) +
+                ", sex=" + sex +
+                '}';
     }
 }
 
