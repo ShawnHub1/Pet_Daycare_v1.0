@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Driver {
-
+    private Scanner input = new Scanner(System.in);
     DayCare daycare;
 
     public static void main(String[] args) {
@@ -31,7 +31,17 @@ public class Driver {
     private int mainMenu() {
 
         //TODO write menu that user will see
-        return ScannerInput.readNextInt("==>> ");
+        return ScannerInput.readNextInt(("""
+               Pet Day Care Menu
+               ---------
+                  1) Pet CRUD Menu
+                  2) Reports
+                  3) Search Pets 
+                  4) Sort Pets
+                  5) Save Pets to .xml
+                  6) Load Pets from .xml
+                  0) Exit
+                "==>> ");
     }
 
     private void runMenu() {
@@ -57,6 +67,7 @@ public class Driver {
     //---------------------
 
 //TODO - write all the methods that are called from your menu
+
     //---------------------
     //  Search
     //---------------------
