@@ -44,6 +44,7 @@ public class Utilities {
     /**
      * This method returns true if the numberToCheck is between min and max (both inclusive)
      *
+     *
      * @param numberToCheck The number whose range is being checked.
      * @param min The minimum range number to check against (inclusive)
      * @param max The maximum range number to check against (inclusive)

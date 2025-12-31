@@ -3,26 +3,110 @@ package models;
 import utils.Utilities;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 //Pet class will be the super class. It will be extended to the other pets like cat and dog.
 //This is why it needs to be abstract.
 
 public abstract class Pet {
-   //  Added from spec. commented out will come back to this when further on to understand it when using it not sure now
     private static int nextId = 1000;
-    // Adding initial Instance fields with defaults
     private int id = 1000;
     private String name = "";
     private String owner = "";
     private boolean[] daysAttending = new boolean[]{false, false, false, false, false};
     private char sex = 'f';
 
-    public Pet(String name, String owner, boolean[] daysAttending, char sex, int nextId) {
-        this.id = id;
+    public Pet(String name, String owner, boolean[] daysAttending, char sex) {
+        this.id = nextId++;
         this.name = name;
         this.owner = owner;
         this.daysAttending = daysAttending;
         this.sex = sex;
+    }
+
+    public static int getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(int nextId) {
+        Pet.nextId = nextId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = Utilities.truncateString(name, 30);
+    }
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = Utilities.truncateString(owner, 20);
+    }
+
+    public boolean[] getDaysAttending() {
+        return Arrays.copyOf(daysAttending, daysAttending.length);
+    }
+
+    public void setDaysAttending(boolean[] daysAttending) {
+
+        this.daysAttending = new boolean[]{false, false, false, false, false};
+        if (daysAttending != null) {
+            System.arraycopy(daysAttending, 0, this.daysAttending, 0,
+                    Math.min(daysAttending.length, this.daysAttending.length));
+        }
+    }
+
+    public char getSex() {
+        return sex;
+    }
+
+    public void setSex(char sex) {
+        if (sex == 'm' || sex == 'f') {
+            this.sex = sex;
+        }
+    }
+
+    public void checkIn(int dayIndex) {
+        if (Utilities.validRange(dayIndex, 0, daysAttending.length - 1)) {
+            daysAttending[dayIndex] = true;
+        }
+    }
+
+    public void checkOut(int dayIndex) {
+        if (Utilities.validRange(dayIndex, 0, daysAttending.length - 1)) {
+            daysAttending[dayIndex] = false;
+        }
+    }
+
+    public int numOfDaysInKennel() {
+        int count = 0;
+        for (boolean attending : daysAttending) {
+            if (attending) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public abstract double calculateWeeklyFee();
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Pet pet = (Pet) o;
+        return id == pet.id && sex == pet.sex && Objects.equals(name, pet.name) && Objects.equals(owner, pet.owner) && Objects.deepEquals(daysAttending, pet.daysAttending);
     }
 
     @Override
@@ -36,4 +120,3 @@ public abstract class Pet {
                 '}';
     }
 }
-

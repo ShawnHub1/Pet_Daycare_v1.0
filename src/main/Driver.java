@@ -12,45 +12,33 @@ public class Driver {
     DayCare daycare;
 
     public static void main(String[] args) {
-
         new Driver();
-
     }
 
     public Driver() {
-
-        //TODO - load all data
-
         runMenu();
+        mainMenu();
     }
-    //----------------------------------------------------------------------------
-    // Private methods for displaying the menu and processing the selected options
-    //----------------------------------------------------------------------------
-
 
     private int mainMenu() {
-
-        //TODO write menu that user will see
-        return ScannerInput.readNextInt(("""
-               Pet Day Care Menu
-               ---------
-                  1) Pet CRUD Menu
-                  2) Reports
-                  3) Search Pets 
-                  4) Sort Pets
-                  5) Save Pets to .xml
-                  6) Load Pets from .xml
-                  0) Exit
-                "==>> ");
+        System.out.print("""
+                Pet Day Care Menu
+                ---------
+                   1) Pet CRUD Menu
+                   2) Reports
+                   3) Search Pets 
+                   4) Sort Pets
+                   5) Save Pets to .xml
+                   6) Load Pets from .xml
+                   0) Exit
+                 ==>> """);
+        int option = input.nextInt();
+        return option;
     }
 
     private void runMenu() {
-
         int option = mainMenu();
-        //TODO - write code to call appropiate method based on value in option
-
         exitApp();
-
     }
 
     private void exitApp() {
@@ -58,25 +46,5 @@ public class Driver {
         System.out.println("Exiting....");
         System.exit(0);
     }
-
-//todo update methods counting methods
-
-
-    //---------------------
-    //  General Menu Items
-    //---------------------
-
-//TODO - write all the methods that are called from your menu
-
-    //---------------------
-    //  Search
-    //---------------------
-// TODO search by different criteria i.e. look at the list methods and give options based on that.
-
-    //---------------------
-    //  Helper Methods
-    //---------------------
-
-//TODO- write any helper methods that are required
-
 }
+
