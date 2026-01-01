@@ -52,8 +52,42 @@ public class DayCare {
         return null;
     }
 
-    public String listPets() {
+    public Pet getPetById (int id) {
+        if (Utilities.isValidIndex(pets, id)) {
+            return pets.get(id);
+        }
+        return null;
+    }
 
+    public boolean isValidId(int id) {
+        for (Pet p : pets) {
+            if (p.getId() == id)
+                return true;
+        }
+        return false;
+    }
+
+    public int numberOfPets() {
+        return pets.size();   // returns 0 if empty anyway
+    }
+
+    public int numberOfCats() {
+        return pets.size();   // returns 0 if empty anyway
+    }
+
+    public int numberOfDogs() {
+        return pets.size();   // returns 0 if empty anyway
+    }
+
+    public int numberOfDangerousDogs() {
+        return pets.size();   // returns 0 if empty anyway
+    }
+
+    public int numberOfIndoorCats() {
+        return pets.size();   // returns 0 if empty anyway
+    }
+
+    public String listPets() {
         if (pets.size() == 0) {
             return "No Pets";
         } else {
@@ -75,7 +109,7 @@ public class DayCare {
 
     public void save() throws Exception {
         XStream xstream = new XStream(new DomDriver());
-        ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter(pets.xml));
+        ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter("pets.xml"));
         out.writeObject(pets);
         out.close();
     }
@@ -90,7 +124,7 @@ public class DayCare {
         xstream.allowTypes(classes);
 
         //writing to serialisation
-        ObjectInputStream is = xstream.createObjectInputStream(new FileReader(pets.xml));
+        ObjectInputStream is = xstream.createObjectInputStream(new FileReader("pets.xml"));
         pets = (ArrayList<Pet>) is.readObject();
         is.close();
     }
