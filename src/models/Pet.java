@@ -59,6 +59,7 @@ public abstract class Pet {
     public void setName(String name) {
         this.name = Utilities.truncateString(name, 30);
     }
+
     public String getOwner() {
         return owner;
     }
@@ -90,18 +91,6 @@ public abstract class Pet {
         }
     }
 
-    public void checkIn(int dayIndex) {
-        if (Utilities.validRange(dayIndex, 0, daysAttending.length - 1)) {
-            daysAttending[dayIndex] = true;
-        }
-    }
-
-    public void checkOut(int dayIndex) {
-        if (Utilities.validRange(dayIndex, 0, daysAttending.length - 1)) {
-            daysAttending[dayIndex] = false;
-        }
-    }
-
     public int numOfDaysInKennel() {
         int count = 0;
         for (boolean attending : daysAttending) {
@@ -118,13 +107,14 @@ public abstract class Pet {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Pet pet = (Pet) o;
-        return id == pet.id && sex == pet.sex && Objects.equals(name, pet.name) && Objects.equals(owner, pet.owner) && Objects.deepEquals(daysAttending, pet.daysAttending);
+        return id == pet.id && age == pet.age && sex == pet.sex && Objects.equals(name, pet.name) && Objects.equals(owner, pet.owner) && Objects.deepEquals(daysAttending, pet.daysAttending);
     }
 
     @Override
     public String toString() {
         return "Pet{" +
                 "id=" + id +
+                ", age=" + age +
                 ", name='" + name + '\'' +
                 ", owner='" + owner + '\'' +
                 ", daysAttending=" + Arrays.toString(daysAttending) +

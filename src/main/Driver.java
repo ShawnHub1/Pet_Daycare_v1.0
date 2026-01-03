@@ -3,22 +3,16 @@ package main;
 import controllers.DayCare;
 import models.*;
 import utils.ScannerInput;
-import utils.ISerializer;
-
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Driver {
-    //    private Scanner input = new Scanner(System.in);
     private DayCare daycare = new DayCare("Pet Daycare", 90, "pets.xml");
+
 
     public static void main(String[] args) {
         new Driver();
     }
-
     public Driver() {
         runMenu();
-       // mainMenu();
     }
 
     private void runMenu() {
@@ -27,9 +21,9 @@ public class Driver {
         while (option != 0) {
             switch (option) {
                 case 1 -> petAdminMenu();
-            //    case 2 -> reportsMenu();
-                case 5 -> savePets();
-                case 6 -> loadPets();
+                case 2 -> runReportsMenu();
+                case 3 -> savePets();
+                case 4 -> loadPets();
                 default -> System.out.println("Invalid option selected: " + option);
             }
             ScannerInput.readNextLine("\nPress enter key to continue...");
@@ -40,20 +34,17 @@ public class Driver {
 
 
     private int mainMenu() {
-      return ScannerInput.readNextInt("""
+        return ScannerInput.readNextInt("""
                 Pet Day Care Menu
                 ---------
                    1) Pet Admin Menu
-                   2) Reports
-                   3) Search Pets 
-                   4) Sort Pets
-                   5) Save Pets to Pets.xml
-                   6) Load Pets from Pets.xml
+                   2) Reports Menu
+                   3) Save Pets to Pets.xml
+                   4) Load Pets from Pets.xml
                    0) Exit
                  ==>> """);
 
     }
-
 
 
     private void petAdminMenu() {
@@ -69,7 +60,7 @@ public class Driver {
             ScannerInput.readNextLine("\nPress enter key to continue...");
             option = adminMenu();
         }
-        // option == 0 means "Return to Main Menu"
+
     }
 
 
@@ -78,6 +69,7 @@ public class Driver {
                 Pet admin Menu
                 ---------
                    1) Add new pet
+                   2) Delete a pet
                    0) Return to Main Menu
                  ==>> """);
 
@@ -136,7 +128,7 @@ public class Driver {
                 dog.setDaysAttending(daysAttending);
                 isAdded = daycare.addPet(dog);
             }
-            case 3 ->  mainMenu();
+            case 3 -> mainMenu();
 
 
             default -> System.out.println("Invalid option entered: " + option);
@@ -160,25 +152,51 @@ public class Driver {
 
         return days;
     }
-
+//Didn't have time to finish this
     private void deletePet() {
 
     }
 
+
     private int reportsMenu() {
-        System.out.print("""
-                Reports Menu
+        return ScannerInput.readNextInt("""
+                 Reports Menu
                 ---------
                    1) List all pets
                    2) List all dogs
                    3) List all cats
-                   4) List dangerous dogs
-                   5) Favourite toy
-                   6) Neutered
-                   0) Weekly income
+                   0) Return to MainMenu
                  ==>> """);
-        int option = ScannerInput.readNextInt("Select Option: ");
-        return option;
+
+    }
+
+    private void runReportsMenu() {
+        int option = reportsMenu();
+
+        while (option != 0) {
+            switch (option) {
+                case 1 -> System.out.println(daycare.listPets());
+                case 2 -> System.out.println(daycare.listDogs());
+                case 3 -> System.out.println(daycare.listCats());
+                default -> System.out.println("Invalid option selected: " + option);
+            }
+
+            ScannerInput.readNextLine("\nPress enter key to continue...");
+            option = reportsMenu();
+        }
+
+    }
+
+    private void listPets() {
+        System.out.println(daycare.listPets());
+    }
+
+    private void listDogs() {
+        System.out.println(daycare.listDogs());
+    }
+
+    private void listCats() {
+        System.out.println(daycare.listCats());
     }
 
     private void exitApp() {

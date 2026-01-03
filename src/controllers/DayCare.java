@@ -7,12 +7,14 @@ import models.Dog;
 import models.Pet;
 import utils.ISerializer;
 import utils.Utilities;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Objects;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -31,12 +33,9 @@ public class DayCare implements ISerializer {
 
     }
 
-
-
     public ArrayList<Pet> getPets() {
         return pets;
     }
-
 
     public boolean addPet(Pet pet) {
         return pets.add(pet);
@@ -65,7 +64,7 @@ public class DayCare implements ISerializer {
         return null;
     }
 
-    public Pet getPetById (int id) {
+    public Pet getPetById(int id) {
         for (Pet p : pets) {
             if (p.getId() == id) return p;
         }
@@ -88,91 +87,31 @@ public class DayCare implements ISerializer {
     //Reporting methods
 
     public String listPets() {
-        if (pets.size() == 0) {
-            return "No Pets";
-        } else {
-            String listOfPets = "";
-
-            for (int i = 0; i < pets.size(); i++) {
-                listOfPets += i + ": " + pets.get(i) + "\n";
-            }
-            return listOfPets;
+        String listOfPets = "";
+        for (Pet pet : pets) {
+            listOfPets += pet.toString() + "\n";
         }
+        return listOfPets;
     }
 
-    public String listAllDogs() {
-        if (pets.size() == 0) {
-            return "No Dogs";
-        } else {
-            String listOfDogs = "";
-
-            for (int i = 0; i < pets.size(); i++) {
-                listOfDogs += i + ": " + pets.get(i) + "\n";
+    public String listDogs() {
+        String listOfDogs = "";
+        for (Pet pet : pets) {
+            if (pet instanceof Dog) {
+                listOfDogs += pet.toString() + "\n";
             }
-            return listOfDogs;
         }
+        return listOfDogs;
     }
 
-    public String listAllCats() {
-        if (pets.size() == 0) {
-            return "No Cats";
-        } else {
-            String listOfCats = "";
-
-            for (int i = 0; i < pets.size(); i++) {
-                listOfCats += i + ": " + pets.get(i) + "\n";
+    public String listCats() {
+        String listOfCats = "";
+        for (Pet pet : pets) {
+            if (pet instanceof Cat) {
+                listOfCats += pet.toString() + "\n";
             }
-            return listOfCats;
         }
-    }
-
-    public String listAllDangerousDogs() {
-        if (pets.size() == 0) {
-            return "No Dangerous Dogs in Kennels";
-        } else {
-            String listOfDangerousDogs = "";
-
-            for (int i = 0; i < pets.size(); i++) {
-                listOfDangerousDogs += i + ": " + pets.get(i) + "\n";
-            }
-            return listOfDangerousDogs;
-        }
-    }
-
-    public String listAllPetsByOwner() {
-        if (pets.size() == 0) {
-            return "No Pets for this owner";
-        } else {
-            String listOfPetsByOwner = "";
-
-            for (int i = 0; i < pets.size(); i++) {
-                listOfPetsByOwner += i + ": " + pets.get(i) + "\n";
-            }
-            return listOfPetsByOwner;
-        }
-    }
-
-    public String listAllPetsThatStayMoreThanDays() {
-        if (pets.size() == 0) {
-            return "No Pets stay for more than + listOfPetsThatStayMoreThanDays + , Days";
-        } else {
-            String listOfPetsThatStayMoreThanDays = "";
-
-            for (int i = 0; i < pets.size(); i++) {
-                listOfPetsThatStayMoreThanDays += i + ": " + pets.get(i) + "\n";
-            }
-            return listOfPetsThatStayMoreThanDays;
-        }
-    }
-
-    public double getWeeklyIncome() {
-        double weeklyIncome = (double)0.0F;
-
-        for(Pet thePet : this.pets) {
-            weeklyIncome += thePet.calculateWeeklyFee();
-        }
-
-        return weeklyIncome;
+        return listOfCats;
     }
 
     @Override
@@ -203,7 +142,8 @@ public class DayCare implements ISerializer {
         pets = (ArrayList<Pet>) is.readObject();
         is.close();
     }
-     public String fileName(){
+
+    public String fileName() {
         return filename;
     }
 }
