@@ -3,19 +3,18 @@ package controllers;
 //imported util for arraylist and model.pet
 
 import models.Pet;
+import utils.ISerializer;
 import utils.Utilities;
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Objects;
-
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
-public class DayCare {
+public class DayCare implements ISerializer {
 
     private ArrayList<Pet> pets = new ArrayList<>();
     private int maxNumberOfPets = 90;
@@ -68,24 +67,26 @@ public class DayCare {
     }
 
     public int numberOfPets() {
-        return pets.size();   // returns 0 if empty anyway
+        return pets.size();
     }
 
     public int numberOfCats() {
-        return pets.size();   // returns 0 if empty anyway
+        return pets.size();
     }
 
     public int numberOfDogs() {
-        return pets.size();   // returns 0 if empty anyway
+        return pets.size();
     }
 
     public int numberOfDangerousDogs() {
-        return pets.size();   // returns 0 if empty anyway
+        return pets.size();
     }
 
     public int numberOfIndoorCats() {
-        return pets.size();   // returns 0 if empty anyway
+        return pets.size();
     }
+
+    //Reporting methods
 
     public String listPets() {
         if (pets.size() == 0) {
@@ -98,6 +99,81 @@ public class DayCare {
             }
             return listOfPets;
         }
+    }
+
+    public String listAllDogs() {
+        if (pets.size() == 0) {
+            return "No Dogs";
+        } else {
+            String listOfDogs = "";
+
+            for (int i = 0; i < pets.size(); i++) {
+                listOfDogs += i + ": " + pets.get(i) + "\n";
+            }
+            return listOfDogs;
+        }
+    }
+
+    public String listAllCats() {
+        if (pets.size() == 0) {
+            return "No Cats";
+        } else {
+            String listOfCats = "";
+
+            for (int i = 0; i < pets.size(); i++) {
+                listOfCats += i + ": " + pets.get(i) + "\n";
+            }
+            return listOfCats;
+        }
+    }
+
+    public String listAllDangerousDogs() {
+        if (pets.size() == 0) {
+            return "No Dangerous Dogs in Kennels";
+        } else {
+            String listOfDangerousDogs = "";
+
+            for (int i = 0; i < pets.size(); i++) {
+                listOfDangerousDogs += i + ": " + pets.get(i) + "\n";
+            }
+            return listOfDangerousDogs;
+        }
+    }
+
+    public String listAllPetsByOwner() {
+        if (pets.size() == 0) {
+            return "No Pets for this owner";
+        } else {
+            String listOfPetsByOwner = "";
+
+            for (int i = 0; i < pets.size(); i++) {
+                listOfPetsByOwner += i + ": " + pets.get(i) + "\n";
+            }
+            return listOfPetsByOwner;
+        }
+    }
+
+    public String listAllPetsThatStayMoreThanDays() {
+        if (pets.size() == 0) {
+            return "No Pets stay for more than + listOfPetsThatStayMoreThanDays + , Days";
+        } else {
+            String listOfPetsThatStayMoreThanDays = "";
+
+            for (int i = 0; i < pets.size(); i++) {
+                listOfPetsThatStayMoreThanDays += i + ": " + pets.get(i) + "\n";
+            }
+            return listOfPetsThatStayMoreThanDays;
+        }
+    }
+
+    public double getWeeklyIncome() {
+        double weeklyIncome = (double)0.0F;
+
+        for(Pet thePet : this.pets) {
+            weeklyIncome += thePet.calculateWeeklyFee();
+        }
+
+        return weeklyIncome;
     }
 
     @Override
@@ -128,7 +204,9 @@ public class DayCare {
         pets = (ArrayList<Pet>) is.readObject();
         is.close();
     }
-
+     public String fileName(){
+        return "pets.xml";
+    }
 }
 
 

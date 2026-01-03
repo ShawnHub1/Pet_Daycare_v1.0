@@ -18,10 +18,10 @@ public abstract class Pet {
 
     public Pet(String name, String owner, boolean[] daysAttending, char sex) {
         this.id = nextId++;
-        this.name = name;
-        this.owner = owner;
-        this.daysAttending = daysAttending;
-        this.sex = sex;
+        setName(name);
+        setOwner(owner);
+        setDaysAttending(daysAttending);
+        setSex(sex);
     }
 
     public static int getNextId() {
