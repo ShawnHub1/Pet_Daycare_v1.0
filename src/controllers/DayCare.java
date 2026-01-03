@@ -2,6 +2,8 @@ package controllers;
 
 //imported util for arraylist and model.pet
 
+import models.Cat;
+import models.Dog;
 import models.Pet;
 import utils.ISerializer;
 import utils.Utilities;
@@ -16,13 +18,32 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class DayCare implements ISerializer {
 
-    private ArrayList<Pet> pets = new ArrayList<>();
+    private ArrayList<Pet> pets;
     private int maxNumberOfPets = 90;
     private String name = "";
+    private String filename = "pets.xml";
 
-    public DayCare(String name, int maxNumberOfPets, ArrayList<Pet> pets) {
+    public DayCare(String name, int maxNumberOfPets, String filename) {
         this.name = name;
         this.maxNumberOfPets = maxNumberOfPets;
+        this.pets = new ArrayList<>();
+        this.filename = filename;
+
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public ArrayList<Pet> getPets() {
+        return pets;
+    }
+
+    public void setPets(ArrayList<Pet> pets) {
         this.pets = pets;
     }
 
@@ -38,8 +59,10 @@ public class DayCare implements ISerializer {
     }
 
     public Pet deletePetById(int id) {
-        if (Utilities.isValidIndex(pets, id)) {
-            return pets.remove(id);
+        for (int i = 0; i < pets.size(); i++) {
+            if (pets.get(i).getId() == id) {
+                return pets.remove(i);
+            }
         }
         return null;
     }
@@ -52,8 +75,8 @@ public class DayCare implements ISerializer {
     }
 
     public Pet getPetById (int id) {
-        if (Utilities.isValidIndex(pets, id)) {
-            return pets.get(id);
+        for (Pet p : pets) {
+            if (p.getId() == id) return p;
         }
         return null;
     }
@@ -70,21 +93,6 @@ public class DayCare implements ISerializer {
         return pets.size();
     }
 
-    public int numberOfCats() {
-        return pets.size();
-    }
-
-    public int numberOfDogs() {
-        return pets.size();
-    }
-
-    public int numberOfDangerousDogs() {
-        return pets.size();
-    }
-
-    public int numberOfIndoorCats() {
-        return pets.size();
-    }
 
     //Reporting methods
 
@@ -185,7 +193,7 @@ public class DayCare implements ISerializer {
 
     public void save() throws Exception {
         XStream xstream = new XStream(new DomDriver());
-        ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter("pets.xml"));
+        ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter(filename));
         out.writeObject(pets);
         out.close();
     }
@@ -193,19 +201,19 @@ public class DayCare implements ISerializer {
     @SuppressWarnings("unchecked")
     public void load() throws Exception {
         //list of classes I want to serialise
-        Class<Pet>[] classes = new Class[]{Pet.class};
+        Class<Pet>[] classes = new Class[]{Pet.class, Cat.class, Dog.class};
         //Set up xstream with default security
         XStream xstream = new XStream(new DomDriver());
         XStream.setupDefaultSecurity(xstream);
         xstream.allowTypes(classes);
 
         //writing to serialisation
-        ObjectInputStream is = xstream.createObjectInputStream(new FileReader("pets.xml"));
+        ObjectInputStream is = xstream.createObjectInputStream(new FileReader(filename));
         pets = (ArrayList<Pet>) is.readObject();
         is.close();
     }
      public String fileName(){
-        return "pets.xml";
+        return filename;
     }
 }
 

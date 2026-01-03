@@ -10,25 +10,37 @@ import java.util.Scanner;
 
 public class Driver {
     //    private Scanner input = new Scanner(System.in);
-    private DayCare daycare = new DayCare("Pet Daycare", 90, new ArrayList<>());
+    private DayCare daycare = new DayCare("Pet Daycare", 90, "pets.xml");
 
     public static void main(String[] args) {
         new Driver();
     }
 
     public Driver() {
-     //   this.daycare = new DayCare("Pet Daycare", 90, new ArrayList<>());
         runMenu();
-        mainMenu();
+       // mainMenu();
     }
 
     private void runMenu() {
         int option = mainMenu();
+
+        while (option != 0) {
+            switch (option) {
+                case 1 -> petAdminMenu();
+            //    case 2 -> reportsMenu();
+                case 5 -> savePets();
+                case 6 -> loadPets();
+                default -> System.out.println("Invalid option selected: " + option);
+            }
+            ScannerInput.readNextLine("\nPress enter key to continue...");
+            option = mainMenu();
+        }
         exitApp();
     }
 
+
     private int mainMenu() {
-        System.out.print("""
+      return ScannerInput.readNextInt("""
                 Pet Day Care Menu
                 ---------
                    1) Pet Admin Menu
@@ -39,45 +51,37 @@ public class Driver {
                    6) Load Pets from Pets.xml
                    0) Exit
                  ==>> """);
-        int option = ScannerInput.readNextInt("Select Option: ");
 
-        while (option != 0) {
-            switch (option) {
-                case 1 -> petAdminMenu();
-                case 2 -> reportsMenu();
-                //          case 3 -> searchPets();
-                //          case 4 -> sortPets();
-                case 5 -> savePets();
-                case 6 -> loadPets();
-                case 7 -> exitApp();
-                default -> System.out.println("Invalid option selected: " + option);
-            }
-        }
-        return option;
     }
 
-    private int petAdminMenu() {
-        System.out.print("""
-                Pet admin Menu
-                ---------
-                   1) Add new pet
-                   2) delete pet
-                   3) Update pet
-                   4) Sort Pets
-                   5) Return to Main Menu
-                 ==>> """);
-        int option = ScannerInput.readNextInt("Select Option: ");
+
+
+    private void petAdminMenu() {
+        int option = adminMenu();
 
         while (option != 0) {
             switch (option) {
                 case 1 -> addPet();
-                case 7 -> exitApp();
+                case 2 -> deletePet();
                 default -> System.out.println("Invalid option selected: " + option);
             }
+
+            ScannerInput.readNextLine("\nPress enter key to continue...");
+            option = adminMenu();
         }
-        return option;
+        // option == 0 means "Return to Main Menu"
     }
 
+
+    private int adminMenu() {
+        return ScannerInput.readNextInt("""
+                Pet admin Menu
+                ---------
+                   1) Add new pet
+                   0) Return to Main Menu
+                 ==>> """);
+
+    }
 
     private void addPet() {
 
@@ -87,6 +91,7 @@ public class Driver {
                 ---------------------------
                 |   1) Add a Cat          |
                 |   2) Add a Dog          |
+                |   3) MainMenu           |
                 ---------------------------
                 ==>> """);
 
@@ -95,10 +100,9 @@ public class Driver {
                 String name = ScannerInput.readNextLine("Enter the cats name:  ");
                 String owner = ScannerInput.readNextLine("Enter the owners name:  ");
                 String favouriteToy = ScannerInput.readNextLine("Cats favourite toy:  ");
-                String filename = ScannerInput.readNextLine("Enter filename:  ");
+                int age = ScannerInput.readNextInt("Enter cats age:  ");
                 char sex = ScannerInput.readNextChar("Gender of cat? (m/f):  ");
                 boolean[] daysAttending = readDaysAttending();
-
                 //had issues with the indoorCat char but added below from lecture to get passed this with the boolean
                 char isIndoorCatChar = ScannerInput.readNextChar("Is this an indoor cat? (y/n):  ");
                 boolean indoorCat = false;
@@ -106,16 +110,17 @@ public class Driver {
                     indoorCat = true;
 
 
-                Cat cat = new Cat(name, owner, daysAttending, sex, indoorCat, favouriteToy);
+                Cat cat = new Cat(name, owner, age, sex, indoorCat, favouriteToy);
+                cat.setDaysAttending(daysAttending);
                 isAdded = daycare.addPet(cat);
             }
             case 2 -> {
                 String name = ScannerInput.readNextLine("Enter the dog's name: ");
                 String owner = ScannerInput.readNextLine("Enter the owner's name: ");
                 String breed = ScannerInput.readNextLine("Enter the dog's breed: ");
+                int age = ScannerInput.readNextInt("Enter Dogs age:  ");
                 char sex = ScannerInput.readNextChar("Gender of dog? (m/f): ");
                 boolean[] daysAttending = readDaysAttending();
-
                 //same approach as Cat here with the char and boolean for neutered and dangerous dog
                 char neuteredChar = ScannerInput.readNextChar("Is this dog neutered? (y/n):  ");
                 boolean neutered = false;
@@ -127,9 +132,13 @@ public class Driver {
                 if ((dangerousChar == 'y') || (dangerousChar == 'Y'))
                     dangerousBreed = true;
 
-                Dog dog = new Dog(name, owner, daysAttending, sex, breed, dangerousBreed, neutered);
+                Dog dog = new Dog(name, owner, age, sex, breed, dangerousBreed, neutered);
+                dog.setDaysAttending(daysAttending);
                 isAdded = daycare.addPet(dog);
             }
+            case 3 ->  mainMenu();
+
+
             default -> System.out.println("Invalid option entered: " + option);
         }
 
@@ -150,6 +159,10 @@ public class Driver {
         days[4] = ScannerInput.readNextChar("Attending Friday? (y/n): ") == 'y';
 
         return days;
+    }
+
+    private void deletePet() {
+
     }
 
     private int reportsMenu() {
@@ -184,7 +197,7 @@ public class Driver {
 
     private void loadPets() {
         try {
-            System.out.println("Saving to file: " + daycare.fileName());
+            System.out.println("Loading to file: " + daycare.fileName());
             this.daycare.load();
         } catch (Exception e) {
             System.err.println("Error reading to file" + e);

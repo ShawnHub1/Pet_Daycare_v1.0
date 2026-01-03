@@ -6,8 +6,8 @@ import java.util.Objects;
      private boolean indoorCat = true;
      private String favouriteToy = "";
 
-    public Cat(String name, String owner, boolean[] daysAttending, char sex, boolean indoorCat, String favouriteToy) {
-        super(name, owner, daysAttending, sex);
+    public Cat(String name, String owner, int age, char sex, boolean indoorCat, String favouriteToy) {
+        super(name, owner, sex, age );
         this.indoorCat = indoorCat;
         this.favouriteToy = favouriteToy;
     }

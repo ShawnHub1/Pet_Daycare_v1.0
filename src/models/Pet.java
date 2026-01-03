@@ -11,17 +11,29 @@ import java.util.Objects;
 public abstract class Pet {
     private static int nextId = 1000;
     private int id = 1000;
+    private int age = 0;
     private String name = "";
     private String owner = "";
     private boolean[] daysAttending = new boolean[]{false, false, false, false, false};
     private char sex = 'f';
 
-    public Pet(String name, String owner, boolean[] daysAttending, char sex) {
+    public Pet(String name, String owner, char sex, int age) {
         this.id = nextId++;
         setName(name);
         setOwner(owner);
-        setDaysAttending(daysAttending);
         setSex(sex);
+        setAge(age);
+//adding field for days attending but leaving out of constructor
+        this.daysAttending = new boolean[]{false, false, false, false, false};
+    }
+
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public static int getNextId() {

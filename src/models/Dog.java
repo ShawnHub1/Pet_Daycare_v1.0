@@ -10,8 +10,8 @@ public class Dog extends Pet {
     private final float DANGEROUS_DAILY_RATE = 40f;
     private final float NONDANGEROUS_DAILY_RATE = 30f;
 
-    public Dog(String name, String owner, boolean[] daysAttending, char sex, String breed, boolean dangerousBreed, boolean neutered) {
-        super(name, owner, daysAttending, sex);
+    public Dog(String name, String owner, int age, char sex, String breed, boolean dangerousBreed, boolean neutered) {
+        super(name, owner, sex, age);
         this.breed = breed;
         this.dangerousBreed = dangerousBreed;
         this.neutered = neutered;
