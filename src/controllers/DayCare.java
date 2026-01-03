@@ -31,21 +31,12 @@ public class DayCare implements ISerializer {
 
     }
 
-    public String getFilename() {
-        return filename;
-    }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
 
     public ArrayList<Pet> getPets() {
         return pets;
     }
 
-    public void setPets(ArrayList<Pet> pets) {
-        this.pets = pets;
-    }
 
     public boolean addPet(Pet pet) {
         return pets.add(pet);
